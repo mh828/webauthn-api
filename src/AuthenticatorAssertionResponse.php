@@ -2,7 +2,9 @@
 
 namespace Mh828\WebApisWebauthn;
 
-class AuthenticatorAssertionResponse
+use Mh828\WebApisWebauthn\Abstracts\PublicKeyCredential;
+
+class AuthenticatorAssertionResponse extends PublicKeyCredential
 {
 
 }

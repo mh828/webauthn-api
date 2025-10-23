@@ -10,4 +10,6 @@ abstract class PublicKeyCredentialResponse
     public string $publicKey;
     public int $publicKeyAlgorithm;
     public array $transports;
+    public string $signature;
+    public string $userHandle;
 }

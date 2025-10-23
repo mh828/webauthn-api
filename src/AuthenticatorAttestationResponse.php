@@ -2,25 +2,14 @@
 
 namespace Mh828\WebApisWebauthn;
 
+use Mh828\WebApisWebauthn\Abstracts\PublicKeyCredential;
 use Mh828\WebApisWebauthn\Enums\PublicKeyAlgorithms;
 use Mh828\WebApisWebauthn\Helpers\General;
-use Mh828\WebApisWebauthn\Abstracts\PublicKeyCredentialResponse;
 
-/**
- * @property-read string $id
- * @property-read PublicKeyCredentialResponse $response
- * @property-read \stdClass $clientExtensionResults
- * @property-read string $type
- */
-class AuthenticatorAttestationResponse
+class AuthenticatorAttestationResponse extends PublicKeyCredential
 {
-    private ?\stdClass $credential;
     public const PREFERRED_ALGORITHM = PublicKeyAlgorithms::RS256;
 
-    public function __construct(public $responseJson)
-    {
-        $this->credential = json_decode($this->responseJson);
-    }
 
     /**
      * @return \stdClass|null
@@ -44,16 +33,6 @@ class AuthenticatorAttestationResponse
         };
     }
 
-    public function __get(string $name)
-    {
-        return $this->credential->$name ?? null;
-    }
-
-    public function getClientData()
-    {
-        return json_decode(General::base64_decode_url($this->response->clientDataJSON));
-    }
-
     public function getPublicKey(): \OpenSSLAsymmetricKey|false
     {
         return openssl_pkey_get_public(
@@ -63,10 +42,6 @@ class AuthenticatorAttestationResponse
         );
     }
 
-    public function isChallengeVerified($challenge): bool
-    {
-        return General::base64_encode_url($challenge) === ($this->getClientData()->challenge ?? null);
-    }
 
     public static function publicKeyCreationOptions(string $challenge, string $host, string $hostName, $userId, $userName, $userDisplayName): string
     {
