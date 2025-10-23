@@ -1,0 +1,16 @@
+{
+    "name": "mh828/web-apis-webauthn",
+    "description": "webautn web api",
+    "autoload": {
+        "psr-4": {
+            "Mh828\\WebApisWebauthn\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mahdi Hasanpour",
+            "email": "mh.hasnapour@gmail.com"
+        }
+    ],
+    "require": {}
+}
