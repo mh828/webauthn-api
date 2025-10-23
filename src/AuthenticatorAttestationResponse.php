@@ -12,7 +12,7 @@ use Mh828\WebApisWebauthn\Abstracts\PublicKeyCredentialResponse;
  * @property-read \stdClass $clientExtensionResults
  * @property-read string $type
  */
-class AuthenticatorAttestation
+class AuthenticatorAttestationResponse
 {
     private ?\stdClass $credential;
     public const PREFERRED_ALGORITHM = PublicKeyAlgorithms::RS256;
