@@ -13,18 +13,20 @@ use Mh828\WebApisWebauthn\Helpers\General;
 abstract class PublicKeyCredential
 {
     private ?\stdClass $credential;
+
     public function __construct(public $responseJson)
     {
         $this->credential = json_decode($this->responseJson);
     }
+
     public function __get(string $name)
     {
         return $this->credential->$name ?? null;
     }
 
-    public function getClientData()
+    public function getClientData(): ResponseClientDataJSON
     {
-        return json_decode(General::base64_decode_url($this->response->clientDataJSON));
+        return new ResponseClientDataJSON(General::base64_decode_url($this->response->clientDataJSON));
     }
 
     public function isChallengeVerified($challenge): bool
