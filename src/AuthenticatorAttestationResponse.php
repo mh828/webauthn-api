@@ -43,16 +43,26 @@ class AuthenticatorAttestationResponse extends PublicKeyCredential
     }
 
 
-    public static function publicKeyCreationOptions(string              $challenge,
-                                                    string              $host, string $hostName,
-                                                                        $userId, $userName, $userDisplayName,
-                                                    PublicKeyAlgorithms $pubKeyAlgorithm = self::PREFERRED_ALGORITHM): string
+    public static function publicKeyCreationOptions(string $challenge,
+                                                    string $host, string $hostName,
+                                                           $userId, $userName, $userDisplayName): string
     {
         return json_encode([
             'challenge' => General::base64_encode_url($challenge),
             'rp' => ['id' => $host, 'name' => $hostName],
             'user' => ['id' => General::base64_encode_url($userId), 'name' => $userName, 'displayName' => $userDisplayName],
-            'pubKeyCredParams' => [["type" => 'public-key', 'alg' => $pubKeyAlgorithm->value]]
+            'pubKeyCredParams' => [
+                ["type" => 'public-key', 'alg' => PublicKeyAlgorithms::RS256->value],
+                ["type" => 'public-key', 'alg' => PublicKeyAlgorithms::ES256->value],
+            ],
+            'timeout' => 120000,
+            'attestation' => "none",
+            'authenticatorSelection' => [
+                'requireResidentKey' => true,
+                'residentKey' => 'required',
+                'userVerification' => 'preferred',
+                'authenticatorAttachment' => "platform"
+            ]
         ]);
     }
 }
