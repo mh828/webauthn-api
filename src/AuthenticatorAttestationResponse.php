@@ -54,14 +54,6 @@ class AuthenticatorAttestationResponse extends PublicKeyCredential
             'pubKeyCredParams' => [
                 ["type" => 'public-key', 'alg' => PublicKeyAlgorithms::RS256->value],
                 ["type" => 'public-key', 'alg' => PublicKeyAlgorithms::ES256->value],
-            ],
-            'timeout' => 120000,
-            'attestation' => "none",
-            'authenticatorSelection' => [
-                'requireResidentKey' => true,
-                'residentKey' => 'required',
-                'userVerification' => 'preferred',
-                'authenticatorAttachment' => "platform"
             ]
         ]);
     }
