@@ -3,6 +3,7 @@
 namespace Mh828\WebApisWebauthn;
 
 use Mh828\WebApisWebauthn\Abstracts\PublicKeyCredential;
+use Mh828\WebApisWebauthn\Enums\PublicKeyAlgorithms;
 use Mh828\WebApisWebauthn\Helpers\General;
 
 class AuthenticatorAssertionResponse extends PublicKeyCredential
@@ -17,5 +18,15 @@ class AuthenticatorAssertionResponse extends PublicKeyCredential
                 $publicKeyCredential->getPublicKey(),
                 $publicKeyCredential->getOpenSSLEquivalenceAlgorithm() ?? OPENSSL_ALGO_SHA256
             ) === 1;
+    }
+
+    public static function publicKeyRequestionOptions(string $challenge,
+                                                      string $host, array $allowCredentials = []): string
+    {
+        return json_encode([
+            'challenge' => General::base64_encode_url($challenge),
+            'rpId' => $host,
+            'allowCredentials' => $allowCredentials
+        ]);
     }
 }
